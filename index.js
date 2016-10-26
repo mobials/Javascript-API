@@ -23,6 +23,11 @@ var MobialsAPI = {};
 
 
 module.exports = {
+
+    init: function(config) {
+        MobialsAPI.APIKey = config.APIKey;
+    },
+
     fetchRating: function(businessId, callback) {
         var http = new XMLHttpRequest();
 
