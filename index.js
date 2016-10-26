@@ -4,6 +4,7 @@
 const uuid = require('uuid');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
+
 /**
  * Begin the Mobials JS SDK
  */
@@ -21,54 +22,40 @@ var MobialsAPI = {};
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
 
 
-/**
- *
- * @param businessId
- * @param callback a callback function
- */
-MobialsAPI.fetchRating = function(businessId, callback) {
-    var http = new XMLHttpRequest();
+module.exports = {
+    fetchRating: function(businessId, callback) {
+        var http = new XMLHttpRequest();
 
-    http.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            callback(this.responseText);
+        http.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                callback(this.responseText);
+            }
+        };
+
+        http.open("GET", MobialsAPI.api_uri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey, true);
+        http.setRequestHeader("Content-type", "application/json");
+        http.send();
+    },
+
+    fetchBatchRatings: function(businessIds, callback) {
+
+        if (businessIds.length > 100) {
+            throw "Maximum 100 businesses at a time";
         }
-    };
 
-    http.open("GET", MobialsAPI.api_uri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey, true);
-    http.setRequestHeader("Content-type", "application/json");
-    http.send();
-};
+        var http = new XMLHttpRequest();
 
-/**
- *
- * @param businessIds array of business ids
- * @param callback a callback function
- */
-MobialsAPI.fetchBatchRatings = function(businessIds, callback) {
+        http.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                callback(this.responseText);
+            }
+        };
 
-    if (businessIds.length > 100) {
-        throw "Maximum 100 businesses at a time";
+        var url = MobialsAPI.api_uri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&business_ids=';
+        url += businessIds.join(',');
+
+        http.open("GET", url, true);
+        http.setRequestHeader("Content-type", "application/json");
+        http.send();
     }
-
-    var http = new XMLHttpRequest();
-
-    http.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            callback(this.responseText);
-        }
-    };
-
-    var url = MobialsAPI.api_uri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&business_ids=';
-    url += businessIds.join(',');
-
-    http.open("GET", url, true);
-    http.setRequestHeader("Content-type", "application/json");
-    http.send();
 };
-
-MobialsAPI.fetchBatchRatings([1,2,3,4,5], function(response) {
-    console.log(response);
-});
-
-module.exports = MobialsAPI;
