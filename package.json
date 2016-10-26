@@ -1,0 +1,27 @@
+{
+  "name": "javascript-api",
+  "version": "0.0.1",
+  "description": "The Reviewsii JavasScript API",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify index.js > index.browserified.js && minify index.browserified.js > api.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mobials/Javascript-API.git"
+  },
+  "keywords": [
+    "reviewsii",
+    "mobials"
+  ],
+  "author": "Brad Hanebury & Mobials Inc.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mobials/Javascript-API/issues"
+  },
+  "homepage": "https://github.com/mobials/Javascript-API#readme",
+  "dependencies": {
+    "uuid": "^2.0.3",
+    "xmlhttprequest": "^1.8.0"
+  }
+}

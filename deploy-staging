@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+npm run build
+
+#determine the version of the code we are currently on
+TAG_VERSION=$(git describe --tags)
+
+#use that to build our deploy url and push to proper folder in S3
+JS_DEPLOY_URL="s3://cdn.staging.mobials.com/api/$TAG_VERSION/api.min.js"
+JS_LATEST_DEPLOY_URL="s3://cdn.staging.mobials.com/api/latest/api.min.js"
+
+
+#push to S3
+aws s3 cp api.min.js ${JS_DEPLOY_URL} --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+
+#we also push to a testing directory
+aws s3 cp api.min.js ${JS_LATEST_DEPLOY_URL} --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+
+#clean up
+rm index.browserified.js
