@@ -3,7 +3,7 @@
 
 const uuid = require('uuid');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
+const AnalyticsTracker = require('mobials-analytics-tracker');
 
 /**
  * Begin the Mobials JS SDK
@@ -42,6 +42,11 @@ module.exports = {
         http.open("GET", MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey, true);
         http.setRequestHeader("Content-type", "application/json");
         http.send();
+
+        AnalyticsTracker.track('impression', {
+            client_id: businessId,
+            resource_id: 1
+        });
     },
 
     fetchBatchRatings: function(businessIds, callback) {
@@ -64,5 +69,14 @@ module.exports = {
         http.open("GET", url, true);
         http.setRequestHeader("Content-type", "application/json");
         http.send();
+
+        var payloads = businessIds.map(function(businessId) {
+            return {
+                client_id: businessId,
+                resource_id: 1
+            };
+        });
+
+        AnalyticsTracker.trackBatch('impression', payloads);
     }
 };
