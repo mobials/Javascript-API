@@ -16,7 +16,7 @@ var MobialsAPI = {};
     MobialsAPI = typeof global.MobialsAPI !== 'undefined' ? global.MobialsAPI : MobialsAPI;
     MobialsAPI.debug = typeof MobialsAPI.debug === 'undefined' ? false : MobialsAPI.debug;
     MobialsAPI.dispatch_uri = MobialsAPI.dispatch_uri ? MobialsAPI.dispatch_uri : 'https://api.mobials.com/tracker/dispatch';
-    MobialsAPI.api_uri = MobialsAPI.api_uri ? MobialsAPI.api_uri : 'https://api.mobials.com/api/js';
+    MobialsAPI.APIUri = MobialsAPI.api_uri ? MobialsAPI.api_uri : 'https://api.mobials.com/api/js';
     MobialsAPI.APIKey = MobialsAPI.APIKey ? MobialsAPI.APIKey : null;
     MobialsAPI.domain = MobialsAPI.domain ? MobialsAPI.domain : 'static.mobials.com';
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
@@ -27,7 +27,7 @@ module.exports = {
     init: function(config) {
         MobialsAPI.APIKey = config.APIKey;
         MobialsAPI.debug = config.debug ? config.debug : false;
-        MobialsAPI.api_uri = config.api_uri ? config.api_uri : MobialsAPI.api_uri;
+        MobialsAPI.APIUri = config.APIUri ? config.APIUri : MobialsAPI.APIUri;
     },
 
     fetchRating: function(businessId, callback) {
@@ -39,7 +39,7 @@ module.exports = {
             }
         };
 
-        http.open("GET", MobialsAPI.api_uri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey, true);
+        http.open("GET", MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey, true);
         http.setRequestHeader("Content-type", "application/json");
         http.send();
     },
@@ -58,7 +58,7 @@ module.exports = {
             }
         };
 
-        var url = MobialsAPI.api_uri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&business_ids=';
+        var url = MobialsAPI.APIUri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&business_ids=';
         url += businessIds.join(',');
 
         http.open("GET", url, true);
