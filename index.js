@@ -27,7 +27,7 @@ module.exports = {
     init: function(config) {
         MobialsAPI.APIKey = config.APIKey;
         MobialsAPI.debug = config.debug ? config.debug : false;
-        MobialsAPI.api_uri = config.api_uri ? config.api_uri : false;
+        MobialsAPI.api_uri = config.api_uri ? config.api_uri : MobialsAPI.api_uri;
     },
 
     fetchRating: function(businessId, callback) {
