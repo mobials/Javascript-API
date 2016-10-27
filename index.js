@@ -22,13 +22,25 @@ var MobialsAPI = {};
 
 module.exports = {
 
+    /**
+     * Pass in your config before using
+     *
+     * @param config object containing config properties
+     */
     init: function(config) {
         MobialsAPI.APIKey = config.APIKey;
         MobialsAPI.debug = config.debug ? config.debug : false;
         MobialsAPI.APIUri = config.APIUri ? config.APIUri : MobialsAPI.APIUri;
     },
 
+    /**
+     * Fetch rating information for a single business
+     *
+     * @param businessId
+     * @param callback
+     */
     fetchRating: function(businessId, callback) {
+
         var http = new XMLHttpRequest();
 
         http.onreadystatechange = function() {
@@ -47,6 +59,12 @@ module.exports = {
         });
     },
 
+    /**
+     * Fetch rating information for multiple business (max 100)
+     *
+     * @param businessIds
+     * @param callback
+     */
     fetchBatchRatings: function(businessIds, callback) {
 
         if (businessIds.length > 100) {
