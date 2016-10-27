@@ -17,6 +17,7 @@ var MobialsAPI = {};
     MobialsAPI.APIUri = MobialsAPI.api_uri ? MobialsAPI.api_uri : 'https://api.mobials.com/api/js';
     MobialsAPI.APIKey = MobialsAPI.APIKey ? MobialsAPI.APIKey : null;
     MobialsAPI.domain = MobialsAPI.domain ? MobialsAPI.domain : 'static.mobials.com';
+    MobialsAPI.language = MobialsAPI.language ? MobialsAPI.language : 'en';
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
 
 
@@ -31,6 +32,7 @@ module.exports = {
         MobialsAPI.APIKey = config.APIKey;
         MobialsAPI.debug = config.debug ? config.debug : false;
         MobialsAPI.APIUri = config.APIUri ? config.APIUri : MobialsAPI.APIUri;
+        MobialsAPI.language = config.language ? config.language : MobialsAPI.language;
     },
 
     /**
@@ -49,7 +51,7 @@ module.exports = {
             }
         };
 
-        http.open("GET", MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey, true);
+        http.open("GET", MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language, true);
         http.setRequestHeader("Content-type", "application/json");
         http.send();
 
@@ -74,12 +76,17 @@ module.exports = {
         var http = new XMLHttpRequest();
 
         http.onreadystatechange = function() {
+
+            if (MobialsAPI.debug === true) {
+                console.log('DEBUG readyState: ' + this.readyState + ', responseText: ' + this.responseText);
+            }
+
             if (this.readyState === 4) {
                 callback(this.responseText);
             }
         };
 
-        var url = MobialsAPI.APIUri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&business_ids=';
+        var url = MobialsAPI.APIUri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language + '&business_ids=';
         url += businessIds.join(',');
 
         http.open("GET", url, true);
