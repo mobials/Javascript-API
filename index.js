@@ -1,7 +1,5 @@
 'use strict';
 
-
-const uuid = require('uuid');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const AnalyticsTracker = require('mobials-analytics-tracker');
 

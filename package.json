@@ -22,7 +22,6 @@
   "homepage": "https://github.com/mobials/Javascript-API#readme",
   "dependencies": {
     "mobials-analytics-tracker": "git+https://github.com/mobials/Analytics-Tracker.git",
-    "uuid": "^2.0.3",
     "xmlhttprequest": "^1.8.0"
   }
 }
