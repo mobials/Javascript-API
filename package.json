@@ -1,6 +1,6 @@
 {
-  "name": "javascript-api",
-  "version": "0.0.1",
+  "name": "reviewsii-javascript-api",
+  "version": "0.1.1",
   "description": "The Reviewsii JavasScript API",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/mobials/Javascript-API#readme",
   "dependencies": {
-    "mobials-analytics-tracker": "git+https://github.com/mobials/Analytics-Tracker.git",
+    "reviewsii-analytics-tracker": "^0.1.4",
     "xmlhttprequest": "^1.8.0"
   }
 }

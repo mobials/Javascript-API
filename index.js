@@ -1,7 +1,7 @@
 'use strict';
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const AnalyticsTracker = require('mobials-analytics-tracker');
+const AnalyticsTracker = require('reviewsii-analytics-tracker');
 
 /**
  * Begin the Mobials JS SDK
