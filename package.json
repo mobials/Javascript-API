@@ -22,6 +22,6 @@
   "homepage": "https://github.com/mobials/Javascript-API#readme",
   "dependencies": {
     "reviewsii-analytics-tracker": "^0.1.4",
-    "xmlhttprequest": "^1.8.0"
+    "superagent": "^2.3.0"
   }
 }

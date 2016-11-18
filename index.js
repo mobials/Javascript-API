@@ -1,7 +1,7 @@
 'use strict';
 
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const AnalyticsTracker = require('reviewsii-analytics-tracker');
+var request = require('superagent');
 
 /**
  * Begin the Mobials JS SDK
@@ -43,17 +43,14 @@ module.exports = {
      */
     fetchRating: function(businessId, callback) {
 
-        var http = new XMLHttpRequest();
+        var url = MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language;
 
-        http.onreadystatechange = function() {
-            if (this.readyState === 4) {
-                callback(this.responseText);
-            }
-        };
-
-        http.open("GET", MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language, true);
-        http.setRequestHeader("Content-type", "application/json");
-        http.send();
+        request
+            .get(url)
+            .set('Content-type', 'application/json')
+            .end(function(err, res){
+                callback(res.body);
+            });
 
         AnalyticsTracker.track('impression', {
             client_id: businessId,
@@ -73,25 +70,15 @@ module.exports = {
             throw "Maximum 100 businesses at a time";
         }
 
-        var http = new XMLHttpRequest();
-
-        http.onreadystatechange = function() {
-
-            if (MobialsAPI.debug === true) {
-                console.log('DEBUG readyState: ' + this.readyState + ', responseText: ' + this.responseText);
-            }
-
-            if (this.readyState === 4) {
-                callback(this.responseText);
-            }
-        };
-
         var url = MobialsAPI.APIUri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language + '&business_ids=';
         url += businessIds.join(',');
 
-        http.open("GET", url, true);
-        http.setRequestHeader("Content-type", "application/json");
-        http.send();
+        request
+            .get(url)
+            .set('Content-type', 'application/json')
+            .end(function(err, res){
+                callback(res.body);
+            });
 
         var payloads = businessIds.map(function(businessId) {
             return {
@@ -103,3 +90,4 @@ module.exports = {
         AnalyticsTracker.trackBatch('impression', payloads);
     }
 };
+
