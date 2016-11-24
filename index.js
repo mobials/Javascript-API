@@ -47,7 +47,7 @@ module.exports = {
 
         request
             .get(url)
-            .set('Content-type', 'application/json')
+            .set('Content-Type', 'text/plain')
             .end(function(err, res){
                 callback(res.body);
             });
@@ -75,7 +75,7 @@ module.exports = {
 
         request
             .get(url)
-            .set('Content-type', 'application/json')
+            .set('Content-Type', 'text/plain')
             .end(function(err, res){
                 callback(res.body);
             });
@@ -90,4 +90,3 @@ module.exports = {
         AnalyticsTracker.trackBatch('impression', payloads);
     }
 };
-
