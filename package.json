@@ -1,6 +1,6 @@
 {
   "name": "reviewsii-javascript-api",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The Reviewsii JavasScript API",
   "main": "index.js",
   "scripts": {

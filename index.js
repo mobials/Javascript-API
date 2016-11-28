@@ -134,10 +134,3 @@ module.exports = {
         AnalyticsTracker.trackBatch('impression', payloads);
     }
 };
-
-module.exports.init({
-    APIKey: "0bc6f39f-b7b4-48c8-a230-c48ff3af6136"
-});
-module.exports.fetchRating(2, function(res) {
-    console.log(res);
-});
