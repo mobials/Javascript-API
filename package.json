@@ -1,6 +1,6 @@
 {
   "name": "reviewsii-javascript-api",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "The Reviewsii JavasScript API",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/mobials/Javascript-API#readme",
   "dependencies": {
-    "reviewsii-analytics-tracker": "^0.1.6",
+    "reviewsii-analytics-tracker": "^0.1.7",
     "superagent": "^2.3.0"
   }
 }

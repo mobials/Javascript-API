@@ -1,6 +1,6 @@
 'use strict';
 
-const AnalyticsTracker = require('reviewsii-analytics-tracker');
+var AnalyticsTracker = require('reviewsii-analytics-tracker');
 var request = require('superagent');
 
 /**
@@ -20,7 +20,6 @@ var MobialsAPI = {};
     MobialsAPI.language = MobialsAPI.language ? MobialsAPI.language : 'en';
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
 
-
 module.exports = {
 
     /**
@@ -29,10 +28,17 @@ module.exports = {
      * @param config object containing config properties
      */
     init: function(config) {
+
+        if (typeof config.APIKey === 'undefined' || !config.APIKey) {
+            return null;
+        }
+
         MobialsAPI.APIKey = config.APIKey;
         MobialsAPI.debug = config.debug ? config.debug : false;
         MobialsAPI.APIUri = config.APIUri ? config.APIUri : MobialsAPI.APIUri;
         MobialsAPI.language = config.language ? config.language : MobialsAPI.language;
+
+        return true;
     },
 
     /**
@@ -43,12 +49,29 @@ module.exports = {
      */
     fetchRating: function(businessId, callback) {
 
+        if (!MobialsAPI.APIKey) {
+            return callback({
+                success: false,
+                statusCode: 400,
+                message: 'No API key has been set'
+            });
+        }
+
         var url = MobialsAPI.APIUri + '/business/' + businessId + '/rating?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language;
 
         request
             .get(url)
             .set('Content-Type', 'text/plain')
             .end(function(err, res){
+
+                if (err) {
+                    return callback({
+                        success: false,
+                        statusCode: err.response.statusCode,
+                        message: err.response && err.response.body ? err.response.body.error : null
+                    });
+                }
+
                 callback(res.body);
             });
 
@@ -66,8 +89,20 @@ module.exports = {
      */
     fetchBatchRatings: function(businessIds, callback) {
 
+        if (!MobialsAPI.APIKey) {
+            return callback({
+                success: false,
+                statusCode: 400,
+                message: 'No API key has been set'
+            });
+        }
+
         if (businessIds.length > 100) {
-            throw "Maximum 100 businesses at a time";
+            return callback({
+                success: false,
+                statusCode: 400,
+                message: 'Maximum 100 businesses can be passsed at a time'
+            });
         }
 
         var url = MobialsAPI.APIUri + '/businesses/ratings?access_token=' + MobialsAPI.APIKey + '&language=' + MobialsAPI.language + '&business_ids=';
@@ -77,6 +112,15 @@ module.exports = {
             .get(url)
             .set('Content-Type', 'text/plain')
             .end(function(err, res){
+
+                if (err) {
+                    return callback({
+                        success: false,
+                        statusCode: err.response.statusCode,
+                        message: err.response && err.response.body ? err.response.body.error : null
+                    });
+                }
+
                 callback(res.body);
             });
 
